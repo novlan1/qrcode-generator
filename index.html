@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>二维码生成器</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body{
+      margin: 0 20px;
+    }
+    h2{
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .wrap {
+      width: calc(min(100%, 400px));
+      margin: 20px auto 0;
+    }
+
+    #text {
+      height: 22px;
+      line-height: 22px;
+      padding: 0 4px;
+    }
+
+    #qrcode {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h2>二维码生成器</h2>
+    <input id="text" type="text" value="https://www.baidu.com" style="width:90%" placeholder="请输入文本" /><br />
+    <div id="qrcode"></div>
+  </div>
+
+  <script type="text/javascript">
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      width: 150,
+      height: 150
+    });
+
+    function makeCode() {
+      var elText = document.getElementById("text");
+
+      if (!elText.value) {
+        alert("Input a text");
+        elText.focus();
+        return;
+      }
+
+      qrcode.makeCode(elText.value);
+    }
+
+    makeCode();
+
+    $("#text").
+      on("blur", function () {
+        makeCode();
+      }).
+      on("keydown", function (e) {
+        if (e.keyCode == 13) {
+          console.log('generating...')
+          makeCode();
+        }
+      });
+  </script>
+</body>
+
+</html>
