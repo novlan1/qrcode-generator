@@ -79,7 +79,11 @@
     let _list = []
     function getList() {
       try {
-        _list = JSON.parse(localStorage.getItem('_list'))
+        if (localStorage.getItem('_list')) {
+          _list = JSON.parse(localStorage.getItem('_list'))
+        } else {
+          localStorage.setItem('_list', JSON.stringify([]))
+        }
       } catch (e) {
 
       }
