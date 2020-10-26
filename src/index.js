@@ -1,14 +1,16 @@
 let _list = []
 
 document.addEventListener('click', onBindClick)
+var elText = document.getElementById("text");
 
 var qrcode = new QRCode(document.getElementById("qrcode"), {
   width: 150,
   height: 150
 });
 
+elText.focus()
 getList()
-makeCode();
+updateHistory()
 
 $("#text").
   on("blur", function () {
@@ -35,8 +37,6 @@ function getList() {
 }
 
 function makeCode() {
-  var elText = document.getElementById("text");
-
   if (!elText.value) {
     alert("Input a text");
     elText.focus();
@@ -50,12 +50,19 @@ function makeCode() {
 
 function onBindClick(e) {
   const { classList, dataset } = e.target
+
   if (classList.contains('history-delete-btn')) {
+
     const { title } = dataset
     const index = _list.indexOf(title)
     _list.splice(index, 1)
     localStorage.setItem('_list', JSON.stringify(_list))
     updateHistory()
+
+  } else if (classList.contains('history-name')) {
+
+    elText.value = e.target.innerText
+    makeCode()
   }
 }
 
